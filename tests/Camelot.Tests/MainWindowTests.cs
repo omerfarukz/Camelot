@@ -52,6 +52,37 @@ namespace Camelot.Tests
             Assert.NotNull(dialog);
         }
 
+        [Fact]
+        public async Task TestOpenAbout()
+        {
+            await LoadAppAsync();
+
+            var window = AvaloniaApp.GetMainWindow();
+            var openMenuTaskCompletionSource = new TaskCompletionSource<bool>();
+            AvaloniaApp.PostAction(() =>
+            {
+                var viewModel = (MainWindowViewModel) window.DataContext;
+                Assert.NotNull(viewModel);
+                var menuViewModel = (MenuViewModel) viewModel.MenuViewModel;
+                menuViewModel.AboutCommand.Execute(null);
+                openMenuTaskCompletionSource.SetResult(true);
+            });
+
+            await openMenuTaskCompletionSource.Task;
+
+            AboutDialog dialog = null;
+            var getDialogTaskCompletionSource = new TaskCompletionSource<bool>();
+            AvaloniaApp.PostAction(() =>
+            {
+                dialog = AvaloniaApp.GetApp().Windows.OfType<AboutDialog>().SingleOrDefault();
+                getDialogTaskCompletionSource.SetResult(true);
+            });
+
+            await getDialogTaskCompletionSource.Task;
+
+            Assert.NotNull(dialog);
+        }
+
         public void Dispose() => AvaloniaApp.Stop();
 
         private static async Task LoadAppAsync()

@@ -17,7 +17,8 @@ namespace Camelot.Tests
             Task.Run(() => BuildAvaloniaApp()
                 .StartWithClassicDesktopLifetime(args, ShutdownMode.OnMainWindowClose));
 
-        public static void RegisterDependencies() => Bootstrapper.Register(Locator.CurrentMutable, Locator.Current);
+        public static void RegisterDependencies() =>
+            Bootstrapper.Register(Locator.CurrentMutable, Locator.Current);
 
         public static Window GetMainWindow() => GetApp().MainWindow;
 
