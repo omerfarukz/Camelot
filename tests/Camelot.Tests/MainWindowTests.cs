@@ -14,6 +14,7 @@ using Xunit;
 
 namespace Camelot.Tests
 {
+    [Collection("Sequential")]
     public class MainWindowTests : IDisposable
     {
         private const int LoadDelayMs = 3000;
