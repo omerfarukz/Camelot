@@ -25,12 +25,7 @@ namespace Camelot.Tests
         public static IClassicDesktopStyleApplicationLifetime GetApp() =>
             (IClassicDesktopStyleApplicationLifetime) Application.Current.ApplicationLifetime;
 
-        public static void Stop()
-        {
-            var window = GetMainWindow();
-
-            PostAction(window.Close);
-        }
+        public static void Stop() => GetApp().Shutdown();
 
         public static void PostAction(Action action) => Dispatcher.UIThread.Post(action);
 
