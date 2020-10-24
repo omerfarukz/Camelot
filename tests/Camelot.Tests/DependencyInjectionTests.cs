@@ -9,7 +9,6 @@ using Xunit;
 
 namespace Camelot.Tests
 {
-    [Collection("Sequential")]
     public class DependencyInjectionTests
     {
         [Fact]

@@ -14,7 +14,6 @@ using Xunit;
 
 namespace Camelot.Tests
 {
-    [Collection("Sequential")]
     public class MainWindowTests : IDisposable
     {
         private const int LoadDelayMs = 3000;
@@ -60,7 +59,7 @@ namespace Camelot.Tests
         // }
 
         [Fact]
-        public async Task TestOpenAbout()
+        public void TestOpenAbout()
         {
             AvaloniaApp.RegisterDependencies();
             var dialogExists = false;
@@ -71,15 +70,21 @@ namespace Camelot.Tests
                 {
                     DispatcherTimer.RunOnce(async () =>
                     {
-                        var window = AvaloniaApp.GetMainWindow();
-                        var menu = window.GetVisualDescendants().OfType<Menu>().First();
-                        var menuItem = menu.GetVisualDescendants().OfType<MenuItem>().Skip(2).First();
-                        menuItem.IsSubMenuOpen = true;
-                        var aboutMenuItem = menuItem.GetLogicalDescendants().OfType<MenuItem>().First();
-                        aboutMenuItem.Command?.Execute(null);
-                        var dialog = AvaloniaApp.GetApp().Windows.OfType<AboutDialog>().SingleOrDefault();
-                        dialogExists = dialog != null;
-                        AvaloniaApp.Stop();
+                        try
+                        {
+                            var window = AvaloniaApp.GetMainWindow();
+                            var menu = window.GetVisualDescendants().OfType<Menu>().First();
+                            var menuItem = menu.GetVisualDescendants().OfType<MenuItem>().Skip(2).First();
+                            menuItem.IsSubMenuOpen = true;
+                            var aboutMenuItem = menuItem.GetLogicalDescendants().OfType<MenuItem>().First();
+                            aboutMenuItem.Command?.Execute(null);
+                            var dialog = AvaloniaApp.GetApp().Windows.OfType<AboutDialog>().SingleOrDefault();
+                            dialogExists = dialog != null;
+                        }
+                        finally
+                        {
+                            AvaloniaApp.Stop();
+                        }
                     }, TimeSpan.FromSeconds(3));
 
                 })
