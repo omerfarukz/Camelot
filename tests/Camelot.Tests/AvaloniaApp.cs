@@ -34,12 +34,11 @@ namespace Camelot.Tests
 
         public static void PostAction(Action action) => Dispatcher.UIThread.Post(action);
 
-        private static AppBuilder BuildAvaloniaApp()
+        public static AppBuilder BuildAvaloniaApp()
             => AppBuilder
                 .Configure<App>()
-                .UseHeadless()
                 .UsePlatformDetect()
-                .LogToDebug()
-                .UseReactiveUI();
+                .UseReactiveUI()
+                .UseHeadless();
     }
 }
